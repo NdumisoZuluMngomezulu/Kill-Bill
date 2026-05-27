@@ -64,4 +64,18 @@ public class GameEnviro {
         return false;
     }
 
+    public GameEnviroState getCurrentState() {
+        // Logic to return the current state of the game environment
+        return new GameEnviroState(playerPositions, dynamicNPCs, staticNPCs);
+    }
+
+    public static GameEnviroState getInstance(){
+        if (instance == null){
+            synchronized(GameEnviro.class){
+                instance = new GameEnviro(Config config);
+            }
+        }
+        return instance;
+    }
+
 }
