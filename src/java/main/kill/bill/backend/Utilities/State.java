@@ -3,6 +3,8 @@ package kill.bill.backend.Utilities;
 import java.util.List;
 import java.util.ArrayList;
 
+import kill.bill.backend.state.Position;
+import kill.bill.backend.state.Direction;
 
 public class State {
     private Position position;
