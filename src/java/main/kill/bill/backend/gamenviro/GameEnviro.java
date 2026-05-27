@@ -78,4 +78,27 @@ public class GameEnviro {
         return instance;
     }
 
+    public boolean isObstacleInRange(Player bot, StaticNPC obs){
+        int difference_x;
+        int difference_y;
+        if (bot.getPosition().getPosition_x() > obs.getPosition_x()){
+            difference_x = bot.getPosition().getPosition_x() - obs.getPosition_x();
+        } else{
+            difference_x = obs.getPosition_x() - bot.getPosition().getPosition_x();
+        }
+        
+        if (bot.getPosition().getPosition_y() > obs.getPosition_y()){
+            difference_y = bot.getPosition().getPosition_y() - obs.getPosition_y();
+        } else{
+            difference_y = obs.getPosition_y() - bot.getPosition().getPosition_y();
+        }
+
+        if ((difference_x >= this.visibility) || (difference_y >= this.visibility)){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+
 }
