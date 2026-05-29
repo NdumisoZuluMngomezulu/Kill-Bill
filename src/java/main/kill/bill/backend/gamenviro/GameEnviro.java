@@ -3,6 +3,7 @@ package kill.bill.backend.gamenviro;
 import kill.bill.backend.state.Position;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+
 import kill.bill.backend.npc.DynamicNPC;
 import kill.bill.backend.npc.StaticNPC;
 import kill.bill.backend.person.Person;
@@ -30,7 +31,7 @@ public class GameEnviro {
         this.center = new Position((topLeft.getX() + bottomRight.getX()) / 2, (topLeft.getY() + bottomRight.getY()) / 2);
         this.maxPlayers = config.getMaxPlayers();
         this.maxHealth = config.getMaxHealth();
-        this.visibilityRange = config.getVisibilityRange();
+        this.visibility = config.getVisibilityRange();
         this.repairTime = config.getRepairTime();
         this.respawnTime = config.getRespawnTime();
         this.respawnEnabled = config.isRespawnEnabled();
