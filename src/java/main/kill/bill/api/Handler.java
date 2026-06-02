@@ -1,7 +1,7 @@
 package kill.bill.backend.api;
 
 import io.javalin.http.Context;
-import kill.bill.backend.database.DbConnect;
+import kill.bill.backend.database.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,7 +18,7 @@ public class Handler {
         String worldName = ctx.pathParam("worldName");
 
         try {
-            DbConnect dbConnect = new DbConnect("");
+            DatabaseConnection dbConnect = new DatabaseConnection("");
             GameEnviroDb world = dbConnect.getWorldByName(connection, worldName);
 
             if (world != null) {
@@ -34,7 +34,7 @@ public class Handler {
 
     public static void getAllWorlds(Context ctx) {
         try {
-            DbConnect dbConnect = new DbConnect("");
+            DatabaseConnection dbConnect = new DatabaseConnection("");
             List<GameEnviroDb> worlds = dbConnect.getAllSavedWorlds(connection);
             ctx.json(worlds);
         } catch (SQLException e) {

@@ -1,7 +1,7 @@
 package kill.bill.backend.api;
 
 import io.javalin.Javalin;
-import kill.bill.backend.database.DbConnect;
+import kill.bill.backend.database.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ public class Api {
 
     public static void main(String[] args) {
         try {
-            DbConnect dbConnect = new DbConnect("jdbc:sqlite:other_testing.db");
+            DatabaseConnection dbConnect = new DatabaseConnection("jdbc:sqlite:other_testing.db");
             connection = dbConnect.connect();
             dbConnect.createWorldTable(connection);
 
