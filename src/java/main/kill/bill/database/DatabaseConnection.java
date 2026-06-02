@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseConnection {
-    //attributes
+    
     public static String URL = "jdbc:sqlite:test_gameEnviro.db";
 
-    // Constructor
     public DatabaseConnection(String url) {
         URL = url;
     }
