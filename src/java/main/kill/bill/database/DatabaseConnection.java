@@ -79,12 +79,6 @@ public class DatabaseConnection {
                 int yValue = Integer.parseInt(coordList[1]);
                 Object newObstacle = GameEnviro.createObstacle(xValue, yValue);
                 GameEnviro.obstacles.add(newObstacle);
-
-//                System.out.println("ID: " + id);
-//                System.out.println("Name of World: " + name_of_world);
-//                System.out.println("Size: " + size);
-//                System.out.println("Obstacles: " + obstacles);
-//                System.out.println("----------");
             }
         } catch (SQLException e) {
             throw new SQLException("Failed to read data from 'worlds'.", e);
