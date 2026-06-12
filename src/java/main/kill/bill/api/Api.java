@@ -15,12 +15,12 @@ public class Api {
             connection = dbConnect.connect();
             dbConnect.createWorldTable(connection);
 
-            APIHandler.setConnection(connection);
+            Handler.setConnection(connection);
 
             Javalin app = Javalin.create();
 
-            app.get("/world/{worldName}", APIHandler::getWorld);
-            app.get("/world", APIHandler::getAllWorlds);
+            app.get("/world/{worldName}", Handler::getWorld);
+            app.get("/world", Handler::getAllWorlds);
 
             app.start(7000);
 
