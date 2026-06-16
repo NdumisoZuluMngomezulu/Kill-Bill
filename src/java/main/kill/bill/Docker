@@ -1,0 +1,32 @@
+# Use Maven as the builder
+FROM maven:3.8.7-eclipse-temurin-17 AS builder
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the entire project directory to the container
+COPY .. .
+
+# Build the application, skipping tests
+RUN mvn clean package -DskipTests
+
+# Use a lightweight base image with JDK installed for the runtime environment
+FROM openjdk:17-jdk-slim
+
+# Set the working directory for the runtime container
+WORKDIR /app
+
+# Install make in the runtime container
+RUN apt-get update && apt-get install -y make
+
+# Copy the JAR file from the builder stage to the runtime stage
+COPY --from=builder /app/target/robot_worlds-1.0-jar-with-dependencies.jar /app/app.jar
+
+# Copy the rest of the application files (including the Makefile) to the runtime container
+COPY .. .
+
+# Expose the port that your application will run on
+EXPOSE 8080
+
+# Command to run the Java application
+CMD ["java", "-jar", "app.jar"]
