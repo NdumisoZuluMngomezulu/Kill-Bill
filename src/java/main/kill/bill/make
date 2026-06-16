@@ -1,0 +1,63 @@
+MVN = mvn
+START_SERVER = libs/start_server.sh
+STOP_SERVER = libs/stop_server.sh
+VERSION ?= $(shell mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+RELEASE_VERSION = $(shell echo $(VERSION) | sed 's/-SNAPSHOT//')
+DEVELOPMENT_VERSION = $(VERSION)
+DOCKER_IMAGE_NAME = ${RELEASE_VERSION}
+DOCKERFILE_PATH = .
+
+.PHONY: all runJar compile verify test stopJar package release docker_build docker_push clean
+all: runJar compile verify test stopJar
+
+install_eod:
+	mvn install:install-file -Dfile=libs/eodsql.jar -DgroupId=net.lemnik.eodsql -DartifactId=eodsql -Dversion=1.0.0 -Dpackaging=jar
+
+compile:
+	@echo "Compiling"
+	@$(MVN) compile
+
+verify:
+	@echo "Verifying"
+	@$(MVN) verify
+
+runJar:
+	@$(START_SERVER)
+	@sleep 2
+
+test:
+	@echo "Testing"
+	@$(MVN) test
+
+stopJar:
+	@$(STOP_SERVER)
+
+package:
+	@echo "Packaging"
+	@$(MVN) package
+
+release: remove_snapshot_tag package tag_version docker_build docker_push
+
+remove_snapshot_tag:
+	@echo "Preparing release build"
+	@sed -i 's/$(VERSION)/$(RELEASE_VERSION)/' pom.xml
+
+tag_version:
+	@echo "Tagging release version"
+	@git tag release-$(RELEASE_VERSION)
+
+docker_build:
+	@echo "Building Docker image"
+	@docker build -t $(DOCKER_IMAGE_NAME) $(DOCKERFILE_PATH)
+
+docker_push:
+	@echo "Logging into GitLab Container Registry"
+	@read -p 'GitLab Username: ' CI_REGISTRY_USER; \
+	read -s -p 'GitLab Password or Personal Access Token: ' CI_REGISTRY_PASSWORD; \
+	echo ""; \
+	echo "$$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u "$$CI_REGISTRY_USER" --password-stdin; \
+	docker push $(DOCKER_IMAGE_NAME)
+
+clean:
+	@echo "Cleaning up"
+	@$(MVN) clean
