@@ -1,3 +1,5 @@
+#YAML configuration file used specifically for GitLab CI/CD (often named .gitlab-ci.yml). It defines an automated pipeline that compiles, tests, packages, and releases a Java/Maven application into a Docker container.
+
 image: docker:latest
 
 services:
