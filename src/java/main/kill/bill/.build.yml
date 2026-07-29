@@ -13,7 +13,7 @@ stages:
 
 variables:
     DOCKER_DRIVER: overlay2
-    PROJECT_DIR: "kill_bil/"
+    PROJECT_DIR: "kill_bill/"
     JAR_DIR: "libs/"
     DOCKER_IMAGE_NAME: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}"
 
